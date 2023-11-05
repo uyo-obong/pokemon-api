@@ -1,0 +1,25 @@
+version: '3.5'
+
+services:
+  database:
+    container_name: postgres_container
+    image: postgres:16.0-alpine3.18
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-legendary}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-password}
+      POSTGRES_DB: ${POSTGRES_DATABASE:-pokemon}
+      PGDATA: /data/postgres
+    volumes:
+      - postgres:/data/postgres
+    ports:
+      - "5432:5432"
+    networks:
+      - postgres
+    restart: unless-stopped
+
+networks:
+  postgres:
+    driver: bridge
+
+volumes:
+  postgres:
